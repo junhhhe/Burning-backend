@@ -1,5 +1,5 @@
 // ** Nest Imports
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -15,6 +15,8 @@ import User from './domain/user.entity';
 import { TypeOrmExModule } from '../../global/repository/typeorm-ex.module';
 import JwtAccessStrategy from './passport/auth.jwt-access.strategy';
 import JwtRefreshStrategy from './passport/auth.jwt-refresh.strategy';
+import PartyModule from '../party/party.module';
+import GameModule from '../game/game.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import JwtRefreshStrategy from './passport/auth.jwt-refresh.strategy';
         },
       }),
     }),
+    forwardRef(() => PartyModule),
+    forwardRef(() => GameModule),
   ],
   exports: [TypeOrmExModule, TypeOrmModule],
   controllers: [AuthController],
