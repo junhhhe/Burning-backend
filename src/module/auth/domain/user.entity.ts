@@ -71,6 +71,7 @@ export default class User extends BaseTimeEntity {
 
   @Column({
     type: 'enum',
+    enum: Gender,
     nullable: false,
     comment: '성별',
     name: 'gender',

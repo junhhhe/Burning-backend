@@ -9,7 +9,7 @@ import { TypeOrmExModule } from '../../global/repository/typeorm-ex.module';
 import Notification from './domain/notification.entity';
 import Party from './domain/party.entity';
 import Review from './domain/review.entity';
-import Tag from './domain/tag';
+import Tag from './domain/tag.entity';
 import NotificationRepository from './repository/notification.repository';
 import PartyRepository from './repository/party.repository';
 import ReviewRepository from './repository/review.repository';

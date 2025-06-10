@@ -22,7 +22,7 @@ import Correct from '../../game/domain/correct.entity';
 import Like from '../../game/domain/like.entity';
 import Message from '../../game/domain/message.entity';
 import PartyMember from '../../game/domain/party.member.entity';
-import Tag from './tag';
+import Tag from './tag.entity';
 
 @Entity({ name: 'TB_PARTY' })
 export default class Party extends BaseTimeEntity {
