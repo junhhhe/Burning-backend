@@ -27,9 +27,9 @@ export default class PartyMember extends BaseTimeEntity {
     length: 255,
     nullable: false,
     comment: '자기소개',
-    name: 'introduce',
+    name: 'detail',
   })
-  introduce: string;
+  detail: string;
 
   @Column({
     type: 'varchar',

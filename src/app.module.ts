@@ -60,7 +60,6 @@ import { v4 as uuidv4 } from 'uuid';
         database: process.env.DB_DATABASE,
         entities: ['dist/module/**/*.entity.js'],
         synchronize: true,
-        dropSchema: true,
         logging: true,
         logger: 'file',
         charset: 'utf8mb4_unicode_ci',
