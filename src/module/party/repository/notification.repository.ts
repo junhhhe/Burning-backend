@@ -2,8 +2,8 @@
 import { Repository } from 'typeorm';
 
 // ** Custom Module Imports
-import User from '../domain/user.entity';
 import { CustomRepository } from '../../../global/repository/typeorm-ex.decorator';
+import Notification from '../domain/notification.entity';
 
-@CustomRepository(User)
-export default class UserRepository extends Repository<User> {}
+@CustomRepository(Notification)
+export default class NotificationRepository extends Repository<Notification> {}

@@ -16,8 +16,8 @@ const swaggerCustomOptions: SwaggerCustomOptions = {
 
 const swaggerConfig = (app: INestApplication): void => {
   const options = new DocumentBuilder()
-    .setTitle('NestJS cms boilerplate')
-    .setDescription('aiara-nestjs-cms-boilerplate')
+    .setTitle('Burning Swagger')
+    .setDescription('API Docs')
     .setVersion('1.0.0')
     .addBearerAuth(
       {
