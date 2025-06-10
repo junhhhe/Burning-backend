@@ -17,6 +17,8 @@ import UserRepository from '../repository/user.repository';
 // Other Imports
 import * as bcrypt from 'bcryptjs';
 import CommonResponse from '../../../global/dto/common.response';
+import { Gender } from '../enum/gender.enum';
+import RequestAdminSaveDto from '../dto/user.admin.save.dto';
 
 @Injectable()
 export default class AuthService {
@@ -40,6 +42,11 @@ export default class AuthService {
       this.userRepository.create({
         username: dto.username,
         password: hash,
+        name: dto.name,
+        birth: dto.birth,
+        instargram: dto.instargram,
+        gender: dto.gender,
+        agreement: dto.agreement,
         role: UserRole.USER,
       }),
     );
@@ -51,7 +58,7 @@ export default class AuthService {
   }
 
   public async saveAdmin(
-    dto: RequestUserSaveDto,
+    dto: RequestAdminSaveDto,
   ): Promise<CommonResponse<any>> {
     const findUser = await this.userRepository.findOne({
       where: { username: dto.username },
@@ -67,6 +74,11 @@ export default class AuthService {
       this.userRepository.create({
         username: dto.username,
         password: hash,
+        name: dto.name,
+        birth: new Date(),
+        instargram: 'admin_instar',
+        gender: Gender.MALE,
+        agreement: true,
         role: UserRole.ADMIN,
       }),
     );

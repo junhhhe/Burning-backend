@@ -3,6 +3,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 
 // ** enum, dto, entity Imports
 import RequestUserSaveDto from '../dto/user.save.dto';
+import RequestAdminSaveDto from '../dto/user.admin.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
 import CommonResponse from '../../../global/dto/common.response';
 
@@ -26,7 +27,7 @@ export default class AuthController {
   @ApiBody({ type: RequestUserSaveDto })
   @ApiResponse(AuthResponse.saveUser[200])
   @ApiResponse(AuthResponse.saveUser[400])
-  @Post()
+  @Post('/save/user')
   async saveUser(
     @Body() dto: RequestUserSaveDto,
   ): Promise<CommonResponse<any>> {
@@ -34,12 +35,12 @@ export default class AuthController {
   }
 
   @ApiOperation({ summary: '관리자 회원가입' })
-  @ApiBody({ type: RequestUserSaveDto })
+  @ApiBody({ type: RequestAdminSaveDto })
   @ApiResponse(AuthResponse.saveAdmin[200])
   @ApiResponse(AuthResponse.saveAdmin[400])
-  @Post('/admin')
+  @Post('/save/admin')
   async saveAdmin(
-    @Body() dto: RequestUserSaveDto,
+    @Body() dto: RequestAdminSaveDto,
   ): Promise<CommonResponse<any>> {
     return this.authService.saveAdmin(dto);
   }
@@ -49,7 +50,7 @@ export default class AuthController {
   @ApiResponse(AuthResponse.localLogin[200])
   @ApiResponse(AuthResponse.localLogin[400])
   @ApiResponse(AuthResponse.localLogin[404])
-  @Post('/local')
+  @Post('/login')
   async localLogin(
     @Body() dto: RequestUserLoginDto,
   ): Promise<CommonResponse<any>> {
