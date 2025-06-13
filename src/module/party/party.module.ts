@@ -30,7 +30,7 @@ import EntryModule from '../entry/entry.module';
     forwardRef(() => GameModule),
     forwardRef(() => EntryModule),
   ],
-  exports: [PartyService],
+  exports: [PartyService, TypeOrmExModule],
   controllers: [PartyController],
   providers: [PartyService],
 })

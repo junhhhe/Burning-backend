@@ -137,7 +137,7 @@ export default class Party extends BaseTimeEntity {
   @OneToMany(() => Message, (message) => message.partyId)
   messages: Relation<Message>[];
 
-  @OneToOne(() => Notification, (notification) => notification.partyId)
+  @OneToMany(() => Notification, (notification) => notification.partyId)
   notifications: Relation<Notification>;
 
   @ManyToMany(() => Tag, (tag) => tag.partys, {

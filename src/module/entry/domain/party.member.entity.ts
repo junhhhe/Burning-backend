@@ -69,8 +69,7 @@ export default class PartyMember extends BaseTimeEntity {
 
   @Column({
     type: 'boolean',
-    default: 0,
-    nullable: false,
+    nullable: true,
     comment: '승인여부',
     name: 'approval',
   })
