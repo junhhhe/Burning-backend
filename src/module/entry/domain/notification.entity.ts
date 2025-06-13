@@ -12,7 +12,7 @@ import {
 // ** enum, dto, entity Imports
 import BaseTimeEntity from '../../../global/entity/BaseTime.Entity';
 import User from '../../auth/domain/user.entity';
-import Party from './party.entity';
+import Party from '../../party/domain/party.entity';
 
 @Entity({ name: 'TB_NOTIFICATION' })
 export default class Notification extends BaseTimeEntity {

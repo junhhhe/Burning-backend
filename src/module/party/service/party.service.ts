@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import PartyRepository from '../repository/party.repository';
-import NotificationRepository from '../repository/notification.repository';
+import NotificationRepository from '../../entry/repository/notification.repository';
 import ReviewRepository from '../repository/review.repository';
 import TagRepository from '../repository/tag.repository';
 import { RequestPartySaveDto } from '../dto/party.save.dto';
