@@ -17,11 +17,11 @@ import BaseTimeEntity from '../../../global/entity/BaseTime.Entity';
 import { PartyState } from '../enum/party.state';
 import User from '../../auth/domain/user.entity';
 import Review from './review.entity';
-import Notification from './notification.entity';
+import Notification from '../../entry/domain/notification.entity';
 import Correct from '../../game/domain/correct.entity';
 import Like from '../../game/domain/like.entity';
 import Message from '../../game/domain/message.entity';
-import PartyMember from '../../game/domain/party.member.entity';
+import PartyMember from '../../entry/domain/party.member.entity';
 import Tag from './tag.entity';
 
 @Entity({ name: 'TB_PARTY' })

@@ -11,9 +11,9 @@ import {
 
 // ** enum, dto, entity Imports
 import BaseTimeEntity from '../../../global/entity/BaseTime.Entity';
-import Correct from './correct.entity';
-import Like from './like.entity';
-import Message from './message.entity';
+import Correct from '../../game/domain/correct.entity';
+import Like from '../../game/domain/like.entity';
+import Message from '../../game/domain/message.entity';
 import User from '../../auth/domain/user.entity';
 import Party from '../../party/domain/party.entity';
 

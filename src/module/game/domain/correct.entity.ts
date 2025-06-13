@@ -11,7 +11,7 @@ import {
 // ** enum, dto, entity Imports
 import BaseTimeEntity from '../../../global/entity/BaseTime.Entity';
 import Party from '../../party/domain/party.entity';
-import PartyMember from './party.member.entity';
+import PartyMember from '../../entry/domain/party.member.entity';
 import User from '../../auth/domain/user.entity';
 
 @Entity({ name: 'TB_CORRECT' })
