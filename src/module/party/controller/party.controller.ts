@@ -70,6 +70,17 @@ export default class PartyController {
     });
   }
 
+  @ApiOperation({ summary: '주최자의 다른 파티 조회' })
+  @Get('/other/:partyId')
+  public async findOtherParties(@Param('partyId') partyId: number) {
+    const data = await this.partyService.findOtherPartiesByHost(partyId);
+    return CommonResponse.createResponse({
+      data,
+      message: '주최자의 다른 파티 조회 완료',
+      statusCode: 200,
+    });
+  }
+
   @ApiOperation({ summary: '파티 생성' })
   @ApiBody({ type: RequestPartySaveDto })
   @ApiResponse(PartyResponse.save[201])

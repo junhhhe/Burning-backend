@@ -8,7 +8,7 @@ import User from '../../auth/domain/user.entity';
 import Party from '../domain/party.entity';
 import { RequestPartyUpdateDto } from '../dto/party.update.dto';
 import Tag from '../domain/tag.entity';
-import { In, Like } from 'typeorm';
+import { In, Like, Not } from 'typeorm';
 import { ResponsePartyDto } from '../dto/response/party.response.dto';
 import { ResponsePartyDetailDto } from '../dto/response/party.response.detail.dto';
 import { InternalServerErrorException } from '../../../global/exception/customException';
@@ -114,6 +114,49 @@ export default class PartyService {
       averageRating,
       reviewCount: reviews.length,
     };
+  }
+
+  /**
+   * 주최자 다른 파티 조회
+   */
+  public async findOtherPartiesByHost(
+    partyId: number,
+  ): Promise<ResponsePartyDto[]> {
+    const party = await this.partyRepository.findOne({
+      where: { partyId, isDeleted: false },
+      relations: ['userId'],
+    });
+
+    if (!party) throw new NotFoundException('파티를 찾을 수 없습니다.');
+    const hostId = party.userId.userId;
+
+    const otherParties = await this.partyRepository.find({
+      where: {
+        userId: { userId: hostId },
+        isDeleted: false,
+        partyId: Not(partyId),
+      },
+      relations: ['userId', 'tags', 'partyMembers'],
+      order: { partyId: 'DESC' },
+    });
+
+    return otherParties.map((party) => {
+      const currentPersonnel = Array.isArray(party.partyMembers)
+        ? party.partyMembers.length
+        : 0;
+
+      return {
+        partyId: party.partyId,
+        partyImage: party.partyImage,
+        title: party.title,
+        location: party.location,
+        partyDate: this.formatDate(party.partyDate),
+        partyState: party.partyState,
+        tags: party.tags.map((t) => `#${t.tag}`),
+        host: party.userId.name,
+        people: `${currentPersonnel}/${party.personnel}`,
+      };
+    });
   }
 
   /**
