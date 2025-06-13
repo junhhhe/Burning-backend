@@ -24,7 +24,7 @@ export default class Notification extends BaseTimeEntity {
     length: 255,
     name: 'content',
     nullable: false,
-    comment: '알림 내ㅇ',
+    comment: '알림 내용',
   })
   content: string;
 
@@ -37,7 +37,7 @@ export default class Notification extends BaseTimeEntity {
   })
   isDeleted: boolean;
 
-  @OneToOne(() => Party, (party) => party.notifications, {
+  @ManyToOne(() => Party, (party) => party.notifications, {
     onDelete: 'CASCADE',
     nullable: false,
   })

@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import PartyRepository from '../repository/party.repository';
-import NotificationRepository from '../../entry/repository/notification.repository';
-import ReviewRepository from '../repository/review.repository';
 import TagRepository from '../repository/tag.repository';
 import { RequestPartySaveDto } from '../dto/party.save.dto';
 import User from '../../auth/domain/user.entity';
@@ -11,14 +9,11 @@ import Tag from '../domain/tag.entity';
 import { In, Like, Not } from 'typeorm';
 import { ResponsePartyDto } from '../dto/response/party.response.dto';
 import { ResponsePartyDetailDto } from '../dto/response/party.response.detail.dto';
-import { InternalServerErrorException } from '../../../global/exception/customException';
 
 @Injectable()
 export default class PartyService {
   constructor(
-    private readonly notificationRepository: NotificationRepository,
     private readonly partyRepository: PartyRepository,
-    private readonly reviewRepository: ReviewRepository,
     private readonly tagRepository: TagRepository,
   ) {}
 
