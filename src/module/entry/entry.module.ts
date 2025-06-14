@@ -15,6 +15,7 @@ import PartyMemberRepository from './repository/party.member.repository';
 import EntryService from './service/entry.service';
 import EntryController from './controller/entry.controller';
 import GameModule from '../game/game.module';
+import { SocketGateway } from '../../global/socket/gateway/gateway.socket';
 
 @Module({
   imports: [
@@ -26,8 +27,9 @@ import GameModule from '../game/game.module';
     forwardRef(() => AuthModule),
     forwardRef(() => PartyModule),
     forwardRef(() => GameModule),
+    forwardRef(() => SocketGateway),
   ],
-  exports: [EntryService],
+  exports: [EntryService, TypeOrmExModule],
   controllers: [EntryController],
   providers: [EntryService],
 })

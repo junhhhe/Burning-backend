@@ -101,6 +101,9 @@ export default class PartyMember extends BaseTimeEntity {
   @OneToMany(() => Correct, (correct) => correct.partyMemberId)
   corrects: Relation<Correct>[];
 
+  @OneToMany(() => Correct, (correct) => correct.targetMemberId)
+  targets: Relation<Correct>[];
+
   @OneToMany(() => Like, (like) => like.partyMemberId)
   likes: Relation<Like>[];
 

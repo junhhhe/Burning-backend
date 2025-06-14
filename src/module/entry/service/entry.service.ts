@@ -11,6 +11,7 @@ import PartyRepository from '../../party/repository/party.repository';
 import { RequestPartyMemberApproveDto } from '../dto/entry.approve.dto';
 import { ReqeustUpdatePartyStateDto } from '../dto/entry.party.status.dto';
 import { RequestInvitationDto } from '../dto/entry.invite.dto';
+import { SocketGateway } from '../../../global/socket/gateway/gateway.socket';
 
 @Injectable()
 export default class EntryService {
@@ -18,6 +19,7 @@ export default class EntryService {
     private readonly notificationRepository: NotificationRepository,
     private readonly partyMemberRepository: PartyMemberRepository,
     private readonly partyRepository: PartyRepository,
+    private readonly socketGateway: SocketGateway,
   ) {}
 
   /**
@@ -196,6 +198,7 @@ export default class EntryService {
     user: User,
     dto: RequestInvitationDto,
   ): Promise<any[]> {
+    console.log(dto.partyId);
     const party = await this.partyRepository.findOne({
       where: {
         partyId: dto.partyId,
@@ -243,8 +246,47 @@ export default class EntryService {
           email: member.userId.username,
           content: dto.content,
         });
+
+        this.socketGateway.sendNotificationToUser(member.userId.userId, {
+          message: `${party.title} 파티 초대장이 도착했습니다.`,
+          url: `/party/${dto.partyId}`,
+          type: 'INVITE',
+        });
       }
     }
     return send;
+  }
+
+  /**
+   * 초대장 열람
+   */
+  public async readInvitation(
+    user: User,
+    notificationId: number,
+  ): Promise<any> {
+    const notification = await this.notificationRepository.findOne({
+      where: {
+        notificationId: notificationId,
+        userId: user.userId as any,
+        isDeleted: false,
+      },
+      relations: ['partyId'],
+    });
+
+    if (!notification) {
+      throw new BadRequestException('해당 초대장을 열람할 수 없습니다.');
+    }
+
+    if (notification.userId.userId !== user.userId) {
+      throw new BadRequestException('초대장 열람 권한이 없습니다.');
+    }
+
+    return {
+      partyId: notification.partyId.partyId,
+      title: notification.partyId.title,
+      location: notification.partyId.location,
+      partyDate: notification.partyId.partyDate,
+      content: notification.content,
+    };
   }
 }
