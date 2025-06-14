@@ -29,7 +29,7 @@ import { SocketGateway } from '../../global/socket/gateway/gateway.socket';
     forwardRef(() => GameModule),
     forwardRef(() => SocketGateway),
   ],
-  exports: [EntryService],
+  exports: [EntryService, TypeOrmExModule],
   controllers: [EntryController],
   providers: [EntryService],
 })

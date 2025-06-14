@@ -44,12 +44,21 @@ export default class Correct extends BaseTimeEntity {
   @JoinColumn({ name: 'party_id' })
   partyId: Relation<Party>;
 
+  //랜덤 익명 프로필 주인 - 실제 정답자
   @ManyToOne(() => PartyMember, (partyMember) => partyMember.corrects, {
     onDelete: 'CASCADE',
     nullable: false,
   })
-  @JoinColumn({ name: 'party_member_id' })
-  partyMemberId: Relation<PartyMember>;
+  @JoinColumn({ name: 'correct_member_id' })
+  correctMemberId: Relation<PartyMember>;
+
+  //예상 제출
+  @ManyToOne(() => PartyMember, (partyMember) => partyMember.targets, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'target_member_id' })
+  targetMemberId: Relation<PartyMember>;
 
   @ManyToOne(() => User, (user) => user.corrects, {
     onDelete: 'CASCADE',
