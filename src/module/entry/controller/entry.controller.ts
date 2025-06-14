@@ -106,15 +106,31 @@ export default class EntryController {
 
   @ApiOperation({ summary: '합격자 한정 초대장 발송' })
   @ApiResponse({ status: 200, description: '초대장 발송 성공' })
-  @Post('/invite/:partyId')
+  @Post('/invite')
   public async sendInvitations(
     @GetUser() user: User,
     @Body() dto: RequestInvitationDto,
   ) {
+    console.log('partyId', dto.partyId);
     const result = await this.entryService.sendInvitations(user, dto);
     return CommonResponse.createResponse({
       data: result,
       message: '초대장이 성공적으로 발송되었습니다.',
+      statusCode: 200,
+    });
+  }
+
+  @ApiOperation({ summary: '초대장 열람' })
+  @ApiResponse({ status: 200, description: '초대장 열람 성공' })
+  @Get('/invite/:notificationId')
+  public async readInvitation(
+    @GetUser() user: User,
+    @Param('notificationId') notificationId: number,
+  ) {
+    const result = await this.entryService.readInvitation(user, notificationId);
+    return CommonResponse.createResponse({
+      data: result,
+      message: '초대장 열람 성공',
       statusCode: 200,
     });
   }
