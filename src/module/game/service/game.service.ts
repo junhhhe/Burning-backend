@@ -16,6 +16,10 @@ import { ResponseRealProfileDto } from '../dto/response/game.real.profile.respon
 import { ResponseCorrectStatsDto } from '../dto/response/game.correct.response';
 import { ResponseApprovedMemberDto } from '../dto/response/game.approve.response.dto';
 import { RequestAddLikeDto } from '../dto/request/game.like.dto';
+import { RequestSaveMessageDto } from '../dto/request/game.message.dto';
+import { ResponseMessageDto } from '../dto/response/game.mseeage.response.dto';
+import { SocketGateway } from '../../../global/socket/gateway/gateway.socket';
+import { In } from 'typeorm';
 
 @Injectable()
 export default class GameService {
@@ -25,6 +29,7 @@ export default class GameService {
     private readonly messageRepository: MessageRepository,
     private readonly partyMemberRepository: PartyMemberRepository,
     private readonly partyRepository: PartyRepository,
+    private readonly socketGateway: SocketGateway,
   ) {}
 
   /**
@@ -367,5 +372,88 @@ export default class GameService {
     });
 
     await this.likeRepository.save(like);
+  }
+
+  /**
+   * 쪽지 생성
+   */
+  public async sendMessage(
+    user: User,
+    dto: RequestSaveMessageDto,
+  ): Promise<void> {
+    const senderMember = await this.partyMemberRepository.findOne({
+      where: {
+        userId: user.userId as any,
+        partyId: dto.partyId as any,
+        approval: true,
+        isDeleted: false,
+      },
+      relations: ['partyId'],
+    });
+
+    if (!senderMember) throw new BadRequestException('파티 참가자가 아닙니다.');
+
+    const receiverMember = await this.partyMemberRepository.findOne({
+      where: {
+        partyMemberId: dto.partyMemberId,
+        partyId: dto.partyId as any,
+        isDeleted: false,
+        approval: true,
+      },
+      relations: ['userId'],
+    });
+
+    if (!receiverMember)
+      throw new NotFoundException('수신자를 찾을 수 없습니다.');
+
+    if (receiverMember.userId.userId === user.userId) {
+      throw new BadRequestException('자기 자신에게 쪽지를 보낼 수 없습니다.');
+    }
+
+    const message = this.messageRepository.create({
+      content: dto.content,
+      partyId: senderMember.partyId,
+      userId: user,
+      partyMemberId: receiverMember,
+    });
+
+    await this.messageRepository.save(message);
+
+    this.socketGateway.sendNotificationToUser(receiverMember.userId.userId, {
+      message: '쪽지가 도착했습니다.',
+      url: `/party/${dto.partyId}/message`,
+      type: 'MESSAGE',
+    });
+  }
+
+  /**
+   * 받은 쪽지 조회
+   */
+  public async getReceivedMessages(user: User): Promise<ResponseMessageDto[]> {
+    const member = await this.partyMemberRepository.find({
+      where: {
+        userId: user.userId as any,
+        isDeleted: false,
+      },
+    });
+
+    const messages = await this.messageRepository.find({
+      where: {
+        partyMemberId: In(member.map((m) => m.partyMemberId)),
+        isDeleted: false,
+      },
+      relations: ['userId', 'partyMemberId'],
+      order: { createdDate: 'DESC' },
+    });
+
+    if (!messages.length) {
+      throw new NotFoundException('받은 쪽지가 없습니다.');
+    }
+
+    return messages.map((m) => ({
+      content: m.content,
+      from: m.partyMemberId.nickname,
+      sentAt: m.createdDate,
+    }));
   }
 }

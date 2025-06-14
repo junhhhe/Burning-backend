@@ -9,6 +9,7 @@ import User from '../../auth/domain/user.entity';
 import { RequestSubmitAnswerDto } from '../dto/request/game.submit.dto';
 import { ResponseApprovedMemberDto } from '../dto/response/game.approve.response.dto';
 import { RequestAddLikeDto } from '../dto/request/game.like.dto';
+import { RequestSaveMessageDto } from '../dto/request/game.message.dto';
 
 @ApiTags('Game')
 @ApiResponse(createServerExceptionResponse())
@@ -117,6 +118,30 @@ export default class GameController {
     return CommonResponse.createResponse({
       data: stats,
       message: '정답 반환 성공',
+      statusCode: 200,
+    });
+  }
+
+  @ApiOperation({ summary: '쪽지 보내기' })
+  @Post('/message')
+  public async sendMessage(
+    @GetUser() user: User,
+    @Body() dto: RequestSaveMessageDto,
+  ) {
+    await this.gameService.sendMessage(user, dto);
+    return CommonResponse.createResponseMessage({
+      message: '쪽지를 보냈습니다.',
+      statusCode: 201,
+    });
+  }
+
+  @ApiOperation({ summary: '내가 받은 쪽지 목록 조회' })
+  @Get('/message')
+  public async getMessages(@GetUser() user: User) {
+    const result = await this.gameService.getReceivedMessages(user);
+    return CommonResponse.createResponse({
+      data: result,
+      message: '쪽지를 불러왔습니다.',
       statusCode: 200,
     });
   }
