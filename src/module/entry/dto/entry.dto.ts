@@ -10,7 +10,7 @@ export class RequestEntryApplyDto {
   @IsString()
   detail: string;
 
-  @ApiProperty({ example: '별명123' })
+  @ApiProperty({ example: '문짱' })
   @IsString()
   nickname: string;
 

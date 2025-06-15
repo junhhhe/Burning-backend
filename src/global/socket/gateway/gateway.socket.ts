@@ -36,7 +36,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
     @MessageBody() userId: number,
   ) {
-    console.log('📥 join 이벤트 수신:', userId); // ✅ ① 이게 가장 먼저 찍혀야 함
+    console.log('📥 join 이벤트 수신:', userId);
     console.log('💡 client id:', client.id);
     const room = `user_${userId}`;
     client.join(room);

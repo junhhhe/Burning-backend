@@ -2,6 +2,6 @@ export class ResponseMyReviewDto {
   partyId: number;
   partyTitle: string;
   content: string;
-  score: number;
+  rating: number;
   createdAt: string;
 }

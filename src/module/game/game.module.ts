@@ -17,6 +17,7 @@ import GameService from './service/game.service';
 import GameController from './controller/game.controller';
 import PartyModule from '../party/party.module';
 import EntryModule from '../entry/entry.module';
+import UserModule from '../user/user.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import EntryModule from '../entry/entry.module';
     forwardRef(() => AuthModule),
     forwardRef(() => PartyModule),
     forwardRef(() => EntryModule),
+    forwardRef(() => UserModule),
   ],
   exports: [GameService],
   controllers: [GameController],

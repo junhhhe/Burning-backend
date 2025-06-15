@@ -6,7 +6,7 @@ export class RequestAddLikeDto {
   @IsNumber()
   partyId: number;
 
-  @ApiProperty({ example: 1, description: '파티 ID' })
+  @ApiProperty({ example: 1, description: '파티 멤버 ID' })
   @IsNumber()
   targetMemberId: number;
 }

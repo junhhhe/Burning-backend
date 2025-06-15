@@ -98,7 +98,7 @@ export default class PartyMember extends BaseTimeEntity {
   @JoinColumn({ name: 'user_id' })
   userId: Relation<User>;
 
-  @OneToMany(() => Correct, (correct) => correct.partyMemberId)
+  @OneToMany(() => Correct, (correct) => correct.correctMemberId)
   corrects: Relation<Correct>[];
 
   @OneToMany(() => Correct, (correct) => correct.targetMemberId)
