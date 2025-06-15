@@ -18,6 +18,7 @@ import JwtRefreshStrategy from './passport/auth.jwt-refresh.strategy';
 import PartyModule from '../party/party.module';
 import GameModule from '../game/game.module';
 import EntryModule from '../entry/entry.module';
+import UserModule from '../user/user.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import EntryModule from '../entry/entry.module';
     forwardRef(() => PartyModule),
     forwardRef(() => GameModule),
     forwardRef(() => EntryModule),
+    forwardRef(() => UserModule),
   ],
   exports: [TypeOrmExModule, TypeOrmModule],
   controllers: [AuthController],

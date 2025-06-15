@@ -7,9 +7,17 @@ import AdapterModule from './adapter/adapter.module';
 import PartyModule from './party/party.module';
 import GameModule from './game/game.module';
 import EntryModule from './entry/entry.module';
+import UserModule from './user/user.module';
 
 @Module({
-  imports: [AuthModule, AdapterModule, PartyModule, GameModule, EntryModule],
+  imports: [
+    AuthModule,
+    AdapterModule,
+    PartyModule,
+    GameModule,
+    EntryModule,
+    UserModule,
+  ],
   controllers: [],
   providers: [],
 })
