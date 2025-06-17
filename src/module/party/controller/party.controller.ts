@@ -9,7 +9,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { createServerExceptionResponse } from '../../../global/response/common';
 import PartyService from '../service/party.service';
 import JwtAccessGuard from '../../auth/passport/auth.jwt-access.guard';
@@ -24,6 +30,7 @@ import { BadRequestException } from '../../../global/exception/customException';
 @ApiTags('Party')
 @ApiResponse(createServerExceptionResponse())
 @UseGuards(JwtAccessGuard)
+@ApiBearerAuth('access-token')
 @Controller({ path: '/party', version: '1' })
 export default class PartyController {
   constructor(private readonly partyService: PartyService) {}
@@ -90,6 +97,7 @@ export default class PartyController {
     @GetUser() user: User,
     @Body() dto: RequestPartySaveDto,
   ) {
+    console.log(user);
     const party = await this.partyService.save(user, dto);
     return CommonResponse.createResponse({
       data: party,

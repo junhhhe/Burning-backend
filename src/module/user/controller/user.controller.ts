@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import JwtAccessGuard from '../../auth/passport/auth.jwt-access.guard';
 import { createServerExceptionResponse } from '../../../global/response/common';
 import UserService from '../service/user.service';
@@ -11,6 +16,7 @@ import { RequestReviewSaveDto } from '../dto/request/party.review.save.dto';
 
 @ApiTags('User')
 @ApiResponse(createServerExceptionResponse())
+@ApiBearerAuth('access-token')
 @UseGuards(JwtAccessGuard)
 @Controller({ path: '/user', version: '1' })
 export default class UserController {
