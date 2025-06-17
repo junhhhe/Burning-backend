@@ -8,7 +8,12 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { createServerExceptionResponse } from '../../../global/response/common';
 import EntryService from '../service/entry.service';
 import JwtAccessGuard from '../../auth/passport/auth.jwt-access.guard';
@@ -22,6 +27,7 @@ import { RequestInvitationDto } from '../dto/entry.invite.dto';
 
 @ApiTags('Entry')
 @ApiResponse(createServerExceptionResponse())
+@ApiBearerAuth('access-token')
 @UseGuards(JwtAccessGuard)
 @Controller({ path: '/entry', version: '1' })
 export default class EntryController {

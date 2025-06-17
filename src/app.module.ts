@@ -23,6 +23,7 @@ import { ClsModule } from 'nestjs-cls';
 
 // ** Utils Imports
 import { v4 as uuidv4 } from 'uuid';
+import { SocketModule } from './global/socket/socket.module';
 
 @Module({
   imports: [
@@ -73,6 +74,7 @@ import { v4 as uuidv4 } from 'uuid';
     }),
     TypeOrmExModule,
     CoreModule,
+    SocketModule,
   ],
   controllers: [],
   providers: [

@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { createServerExceptionResponse } from '../../../global/response/common';
 import GameService from '../service/game.service';
 import { GetUser } from '../../../global/decorators/user.decorators';
@@ -13,6 +18,7 @@ import { RequestSaveMessageDto } from '../dto/request/game.message.dto';
 
 @ApiTags('Game')
 @ApiResponse(createServerExceptionResponse())
+@ApiBearerAuth('access-token')
 @UseGuards(JwtAccessGuard)
 @Controller({ path: '/game', version: '1' })
 export default class GameController {

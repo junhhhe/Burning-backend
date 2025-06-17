@@ -11,7 +11,7 @@ import {
 import { AppModule } from './app.module';
 
 // ** Swagger Config Imports
-import swaggerConfig from './global/config/swagger/swaggerConfig'
+import swaggerConfig from './global/config/swagger/swaggerConfig';
 
 // ** Logger Config Imports
 import LoggerService from './global/util/logger/logger.service';
@@ -56,10 +56,14 @@ async function bootstrap() {
   );
 
   // ** Security
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    optionsSuccessStatus: 200,
+  });
 
   // ** Swagger Setting
-  if (process.env.NODE_ENV === 'development') {
+  if (['development', 'production'].includes(process.env.NODE_ENV)) {
     swaggerConfig(app);
   }
 
