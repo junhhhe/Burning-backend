@@ -12,6 +12,7 @@ import { RequestPartyMemberApproveDto } from '../dto/entry.approve.dto';
 import { ReqeustUpdatePartyStateDto } from '../dto/entry.party.status.dto';
 import { RequestInvitationDto } from '../dto/entry.invite.dto';
 import { SocketGateway } from '../../../global/socket/gateway/gateway.socket';
+import Notification from '../domain/notification.entity';
 
 @Injectable()
 export default class EntryService {
@@ -122,6 +123,7 @@ export default class EntryService {
     });
 
     return partyMembers.map((member) => ({
+      partyMemberId: member.partyMemberId,
       name: member.userId.name,
       email: member.userId.username,
       instargram: member.userId.instargram,
@@ -258,12 +260,29 @@ export default class EntryService {
   }
 
   /**
+   * 받은 초대장 리스트 조회
+   */
+  public async listInvitation(user: User): Promise<Notification[]> {
+    return this.notificationRepository.find({
+      where: {
+        userId: user.userId as any,
+        isDeleted: false,
+      },
+      relations: ['partyId'],
+      order: {
+        createdDate: 'DESC',
+      },
+    });
+  }
+
+  /**
    * 초대장 열람
    */
   public async readInvitation(
     user: User,
     notificationId: number,
   ): Promise<any> {
+    console.log(user);
     const notification = await this.notificationRepository.findOne({
       where: {
         notificationId: notificationId,
@@ -275,10 +294,6 @@ export default class EntryService {
 
     if (!notification) {
       throw new BadRequestException('해당 초대장을 열람할 수 없습니다.');
-    }
-
-    if (notification.userId.userId !== user.userId) {
-      throw new BadRequestException('초대장 열람 권한이 없습니다.');
     }
 
     return {

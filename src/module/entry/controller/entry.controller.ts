@@ -126,6 +126,18 @@ export default class EntryController {
     });
   }
 
+  @ApiOperation({ summary: '받은 초대장 리스트 조회' })
+  @ApiResponse({ status: 200, description: '초대장 열람 성공' })
+  @Get('/invite')
+  public async listInvitation(@GetUser() user: User) {
+    const result = await this.entryService.listInvitation(user);
+    return CommonResponse.createResponse({
+      data: result,
+      message: '받은 초대장 리스트 조회 성공',
+      statusCode: 200,
+    });
+  }
+
   @ApiOperation({ summary: '초대장 열람' })
   @ApiResponse({ status: 200, description: '초대장 열람 성공' })
   @Get('/invite/:notificationId')
