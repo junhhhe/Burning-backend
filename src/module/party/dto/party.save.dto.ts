@@ -29,6 +29,10 @@ export class RequestPartySaveDto {
   @IsDateString()
   partyDate: Date;
 
+  @ApiProperty({ example: '18:30:00', description: '파티 시간 (HH:mm:ss)' })
+  @IsString()
+  partyTime: string;
+
   @ApiProperty({ example: '서울 강남구' })
   @IsString()
   location: string;

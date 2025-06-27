@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class RequestProfileUpdateDto {
-  @ApiProperty({ example: '이메일' })
+  @ApiProperty({ example: 'user.name+test@example-domain.com' })
   @IsOptional()
-  @IsString()
+  @IsEmail()
   email?: string;
 
   @ApiProperty({ example: '이름' })
@@ -17,7 +17,7 @@ export class RequestProfileUpdateDto {
   @IsString()
   instargram?: string;
 
-  @ApiProperty({ example: '생년월일' })
+  @ApiProperty({ example: '1990-01-01' })
   @IsOptional()
   @IsDateString()
   birth?: string;

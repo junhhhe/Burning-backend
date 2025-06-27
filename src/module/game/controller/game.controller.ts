@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -86,6 +87,7 @@ export default class GameController {
 
   @ApiOperation({ summary: '정답 제출' })
   @ApiResponse({ status: 200, description: '정답 제출 성공' })
+  @ApiBody({ type: RequestSubmitAnswerDto })
   @Post('/submit')
   async submitAnswer(
     @GetUser() user: User,

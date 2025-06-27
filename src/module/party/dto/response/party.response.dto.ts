@@ -4,6 +4,7 @@ export class ResponsePartyDto {
   title: string;
   location: string;
   partyDate: string;
+  partyTime: string;
   partyState: string;
   tags: string[];
   host: string;

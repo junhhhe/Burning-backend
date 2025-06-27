@@ -12,6 +12,7 @@ export interface ResponsePartyDetailDto {
   content: string;
   location: string;
   partyDate: string;
+  partyTime: string;
   startDate: string;
   endDate: string;
   partyState: string;

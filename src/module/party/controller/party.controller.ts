@@ -29,7 +29,6 @@ import { BadRequestException } from '../../../global/exception/customException';
 
 @ApiTags('Party')
 @ApiResponse(createServerExceptionResponse())
-@UseGuards(JwtAccessGuard)
 @ApiBearerAuth('access-token')
 @Controller({ path: '/party', version: '1' })
 export default class PartyController {
@@ -92,6 +91,7 @@ export default class PartyController {
   @ApiBody({ type: RequestPartySaveDto })
   @ApiResponse(PartyResponse.save[201])
   @ApiResponse(PartyResponse.save[400])
+  @UseGuards(JwtAccessGuard)
   @Post('/save')
   public async saveParty(
     @GetUser() user: User,
@@ -110,6 +110,7 @@ export default class PartyController {
   @ApiBody({ type: RequestPartyUpdateDto })
   @ApiResponse(PartyResponse.update[200])
   @ApiResponse(PartyResponse.update[404])
+  @UseGuards(JwtAccessGuard)
   @Patch('/')
   public async updateParty(
     @GetUser() user: User,
@@ -126,6 +127,7 @@ export default class PartyController {
   @ApiOperation({ summary: '파티 삭제' })
   @ApiResponse(PartyResponse.delete[200])
   @ApiResponse(PartyResponse.delete[404])
+  @UseGuards(JwtAccessGuard)
   @Delete('/:partyId')
   public async deleteParty(
     @Param('partyId') partyId: number,

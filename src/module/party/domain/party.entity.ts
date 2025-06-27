@@ -59,10 +59,18 @@ export default class Party extends BaseTimeEntity {
   @Column({
     type: 'datetime',
     nullable: false,
-    comment: '파티 일시',
+    comment: '파티 일',
     name: 'party_date',
   })
   partyDate: Date;
+
+  @Column({
+    type: 'time',
+    nullable: false,
+    comment: '파티 시간',
+    name: 'party_time',
+  })
+  partyTime: string;
 
   @Column({
     type: 'varchar',
